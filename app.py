@@ -46,7 +46,7 @@ st.markdown("""
             rgba(15,23,42,0.92)
         ),
 
-        url("https://images.unsplash.com/photo-1519996529931-28324d5a630e?q=80&w=2070&auto=format&fit=crop");
+        url("https://raw.githubusercontent.com/amitanshubehera752004-cadx/geopolymer-ai-app/refs/heads/main/background.jpg");
 
     background-size: cover;
     background-position: center;
