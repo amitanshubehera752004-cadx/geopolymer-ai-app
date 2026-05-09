@@ -39,12 +39,22 @@ st.markdown("""
 
 /* Main App Background */
 .stApp {
-    background: linear-gradient(
-        135deg,
-        #0f172a 0%,
-        #111827 40%,
-        #1e293b 100%
-    );
+
+    background:
+        linear-gradient(
+            rgba(2,6,23,0.88),
+            rgba(15,23,42,0.92)
+        ),
+
+        url("https://images.unsplash.com/photo-1519996529931-28324d5a630e?q=80&w=2070&auto=format&fit=crop");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    color: #f8fafc;
+    font-family: 'Segoe UI', sans-serif;
+}
     color: #f8fafc;
     font-family: 'Segoe UI', sans-serif;
 }
