@@ -31,6 +31,143 @@ st.set_page_config(
     page_icon="🧱",
     layout="wide"
 )
+# ===============================
+# CUSTOM SCIENTIFIC UI DESIGN
+# ===============================
+st.markdown("""
+<style>
+
+/* Main App Background */
+.stApp {
+    background: linear-gradient(
+        135deg,
+        #0f172a 0%,
+        #111827 40%,
+        #1e293b 100%
+    );
+    color: #f8fafc;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Header Styling */
+h1, h2, h3 {
+    color: #f8fafc !important;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Glassmorphism Containers */
+div[data-testid="stVerticalBlock"] > div:has(div.stButton) {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(14px);
+    border-radius: 22px;
+    padding: 25px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow:
+        0 8px 32px rgba(0,0,0,0.35);
+}
+
+/* Input Boxes */
+.stNumberInput input,
+.stTextInput input {
+    background-color: rgba(255,255,255,0.08) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    padding: 10px !important;
+}
+
+/* Labels */
+label {
+    color: #dbeafe !important;
+    font-weight: 500 !important;
+}
+
+/* Select Box */
+.stSelectbox div[data-baseweb="select"] {
+    background-color: rgba(255,255,255,0.08);
+    border-radius: 12px;
+}
+
+/* Buttons */
+.stButton button {
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #06b6d4
+    );
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: 0.3s ease-in-out;
+    box-shadow:
+        0 4px 20px rgba(37,99,235,0.35);
+}
+
+.stButton button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+        0 8px 30px rgba(6,182,212,0.45);
+}
+
+/* Metric Cards */
+div[data-testid="metric-container"] {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow:
+        0 6px 24px rgba(0,0,0,0.25);
+}
+
+/* Metric Labels */
+div[data-testid="metric-container"] label {
+    color: #93c5fd !important;
+}
+
+/* Metric Values */
+div[data-testid="metric-container"] div {
+    color: white !important;
+}
+
+/* Dataframe Styling */
+[data-testid="stDataFrame"] {
+    background: rgba(255,255,255,0.04);
+    border-radius: 18px;
+    padding: 10px;
+}
+
+/* Success Box */
+.stAlert {
+    border-radius: 16px;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background: rgba(15,23,42,0.95);
+    border-right: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 # ===============================
 # LOAD MODELS
