@@ -20,6 +20,9 @@ download_file("1j2nbeNE8bYXayXLDLB4hBS17r2y7GmGr", "forward_models.pkl")
 download_file("1m62q4kL_jci8LfzpAafvGKU_GQcFJXPp", "forward_model.pkl")
 download_file("1uTAouTup5QwMS8pXziRS3xVudz3HUXQC", "prop_models.pkl")
 
+# 🔥 ADD YOUR COST MODEL FILE ID BELOW
+download_file("18CxklrLjR6r3gOe-2bfRVshaAyFzPROD", "cost_model.pkl")
+
 # ===============================
 # PAGE CONFIG
 # ===============================
@@ -162,20 +165,52 @@ else:
 
             target = np.array([known[p] for p in properties])
 
-            bounds = [
-                (200,450),(50,300),(4,14),(30,120),
-                (60,250),(20,100),(900,1300),(400,800),(0,300)
-            ]
+            # 🔥 Realistic engineering constraints
+            gene_space = [
 
-            gene_space = [{'low':b[0],'high':b[1]} for b in bounds]
+                # Fly Ash
+                {'low': 200, 'high': 450},
+
+                # GGBFS
+                {'low': 50, 'high': 300},
+
+                # NaOH Molarity
+                {'low': 4, 'high': 14},
+
+                # NaOH Amount
+                {'low': 30, 'high': 120},
+
+                # Na2SiO3 Amount
+                {'low': 60, 'high': 250},
+
+                # Extra Water
+                [0],
+
+                # Coarse Aggregate
+                {'low': 900, 'high': 1300},
+
+                # Fine Aggregate
+                {'low': 400, 'high': 800},
+
+                # Recycled Aggregate
+                [0, 300, 800]
+            ]
 
             def fitness_func(ga, solution, idx):
                 sol_df = pd.DataFrame([dict(zip(opt_cols, solution))])
+
                 for col in fixed_cols:
                     sol_df[col] = fixed_values[col]
 
-                preds = np.array([forward_models[p].predict(sol_df)[0] for p in properties])
-                error = np.mean(np.abs((preds - target) / (target + 1e-6)))
+                preds = np.array([
+                    forward_models[p].predict(sol_df)[0]
+                    for p in properties
+                ])
+
+                error = np.mean(
+                    np.abs((preds - target) / (target + 1e-6))
+                )
+
                 return -error
 
             ga = pygad.GA(
@@ -193,21 +228,38 @@ else:
             solution, _, _ = ga.best_solution()
 
             best_mix = dict(zip(opt_cols, solution))
+
             for col in fixed_cols:
                 best_mix[col] = fixed_values[col]
 
             best_df = pd.DataFrame([best_mix])
+
             predicted_cost = cost_model.predict(best_df)[0]
 
         # ================= OUTPUT =================
 
         st.subheader("🧪 Final Properties")
+
         cols_prop = st.columns(3)
+
         for i, prop in enumerate(properties):
-            cols_prop[i % 3].metric(prop, f"{known[prop]:.2f}")
+            cols_prop[i % 3].metric(
+                prop,
+                f"{known[prop]:.2f}"
+            )
 
         st.subheader("📦 Mix Design")
-        mix_df = pd.DataFrame(best_mix.items(), columns=["Parameter", "Value"])
-        st.dataframe(mix_df, use_container_width=True)
 
-        st.success(f"💰 Estimated Cost: ₹{predicted_cost:.2f} per m³")
+        mix_df = pd.DataFrame(
+            best_mix.items(),
+            columns=["Parameter", "Value"]
+        )
+
+        st.dataframe(
+            mix_df,
+            use_container_width=True
+        )
+
+        st.success(
+            f"💰 Estimated Cost: ₹{predicted_cost:.2f} per m³"
+        )
